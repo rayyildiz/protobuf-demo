@@ -1,11 +1,15 @@
 package main
 
 import (
-	"net"
 	"log"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"google.golang.org/grpc"
 
-	pb "github.com/rayyildiz/dmt/pb/compnay"
+	pb "github.com/rayyildiz/protobuf-demo/api/company"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/reflection"
 )
@@ -17,17 +21,13 @@ const (
 )
 
 func (s *server) List(ctx context.Context, in *pb.CompanyListRrequest) (*pb.CompanyListResponse, error) {
+	response := pb.CompanyListResponse{}
 
-	//log.Printf("Request comes for List %v", *in)
+	response.Companies = append(response.Companies, &pb.CompanyData{1, "Name_1", "Desc", ""})
+	response.Companies = append(response.Companies, &pb.CompanyData{2, "Name_2", "Desc", ""})
+	response.Companies = append(response.Companies, &pb.CompanyData{3, "Name_3", "Desc", ""})
 
-	return &pb.CompanyListResponse{
-		Companies: &pb.CompanyData{
-			Id:          1,
-			Name:        "Name",
-			Descrpition: "Desc",
-			LogoUrl:     "",
-		},
-	}, nil
+	return &response, nil
 }
 
 func (s *server) GetDetail(ctx context.Context, in *pb.CompanyDetailRequest) (*pb.CompanyDetailResponse, error) {
@@ -44,11 +44,15 @@ func (s *server) GetDetail(ctx context.Context, in *pb.CompanyDetailRequest) (*p
 }
 
 func main() {
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+	defer lis.Close()
+
 	s := grpc.NewServer()
+	defer s.Stop()
 
 	pb.RegisterCompanyServer(s, &server{})
 
@@ -56,4 +60,11 @@ func main() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+
+	ch := make(chan os.Signal)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	go func() {
+		<-ch
+		os.Exit(2)
+	}()
 }

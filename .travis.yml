@@ -1,0 +1,20 @@
+language: go
+
+go:
+    - 1.7.x
+    - 1.8.x
+    - 1.9.x
+    - master
+
+before_install:
+    - go get golang.org/x/net/context
+    - go get google.golang.org/grpc/reflection
+    - go get github.com/golang/protobuf/proto
+    - go get google.golang.org/grpc
+
+script:
+    - go build backend/main.go
+    - go build client/main.go
+
+notifications:
+    email: false
