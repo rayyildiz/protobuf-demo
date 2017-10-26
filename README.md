@@ -56,3 +56,6 @@ If you need to generate code by using ```make pb```
 Start server : ```go run server.go```
 
 Start Client : ```go run client.go```
+
+
+![terminal](terminal.png "Terminal")

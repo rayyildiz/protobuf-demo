@@ -52,6 +52,6 @@ func main() {
 	// fmt.Printf("Result %v\n", r)
 
 	elapsed := time.Since(start)
-	log.Printf("Binomial took  %s for %d times", elapsed, count)
+	log.Printf("List requests took  %s for %d times", elapsed, count)
 
 }
