@@ -1,11 +1,15 @@
 package main
 
 import (
-	"net"
 	"log"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"google.golang.org/grpc"
 
-	pb "github.com/rayyildiz/dmt/pb/company"
+	pb "github.com/rayyildiz/dmt-go/pb/company"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/reflection"
 )
@@ -40,11 +44,15 @@ func (s *server) GetDetail(ctx context.Context, in *pb.CompanyDetailRequest) (*p
 }
 
 func main() {
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+	defer lis.Close()
+
 	s := grpc.NewServer()
+	defer s.Stop()
 
 	pb.RegisterCompanyServer(s, &server{})
 
@@ -52,4 +60,11 @@ func main() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+
+	ch := make(chan os.Signal)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	go func() {
+		<-ch
+		os.Exit(2)
+	}()
 }

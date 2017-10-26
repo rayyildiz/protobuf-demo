@@ -9,7 +9,6 @@ service Company {
     rpc GetDetail(CompanyDetailRequest) returns (CompanyDetailResponse);
 }
 
-
 message CompanyData {
     int32 id = 1;
     string name = 2;

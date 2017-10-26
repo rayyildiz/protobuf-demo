@@ -2,13 +2,15 @@ package main
 
 import (
 	"log"
+
 	"google.golang.org/grpc"
 
-	pb "github.com/rayyildiz/dmt/pb/company"
-	"golang.org/x/net/context"
 	"flag"
 	"fmt"
 	"time"
+
+	pb "github.com/rayyildiz/dmt-go/pb/company"
+	"golang.org/x/net/context"
 )
 
 func mustDial(addr string) *grpc.ClientConn {
@@ -26,7 +28,7 @@ func mustDial(addr string) *grpc.ClientConn {
 func main() {
 	count := 100000
 
-	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
 	searchAddr := flag.String("serveradd", ":50051", "Search service addr")
