@@ -51,7 +51,7 @@ message HelloReply {
 Run Example
 ---
 
-First you need to generate code by using ```make pb```
+If you need to generate code by using ```make pb```
 
 Start server : ```go run server.go```
 
