@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package company;
+
+
+service Company {
+    rpc List(CompanyListRrequest) returns (CompanyListResponse);
+
+    rpc GetDetail(CompanyDetailRequest) returns (CompanyDetailResponse);
+}
+
+
+message CompanyData {
+    int32 id = 1;
+    string name = 2;
+    string descrpition = 3;
+    string logo_url = 4;
+}
+
+message CompanyListRrequest {
+
+}
+
+message CompanyListResponse {
+    CompanyData companies = 1;
+}
+
+
+message CompanyDetailRequest{
+    int32 id = 1;
+}
+
+message CompanyDetailResponse{
+    CompanyData company = 1;
+}
