@@ -22,7 +22,7 @@ message CompanyListRrequest {
 }
 
 message CompanyListResponse {
-    CompanyData companies = 1;
+    repeated CompanyData companies = 1;
 }
 
 

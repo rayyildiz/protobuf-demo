@@ -5,7 +5,7 @@ import (
 	"log"
 	"google.golang.org/grpc"
 
-	pb "github.com/rayyildiz/dmt/pb/compnay"
+	pb "github.com/rayyildiz/dmt/pb/company"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/reflection"
 )
@@ -17,17 +17,13 @@ const (
 )
 
 func (s *server) List(ctx context.Context, in *pb.CompanyListRrequest) (*pb.CompanyListResponse, error) {
+	response := pb.CompanyListResponse{}
 
-	//log.Printf("Request comes for List %v", *in)
+	response.Companies = append(response.Companies, &pb.CompanyData{1, "Name_1", "Desc", ""})
+	response.Companies = append(response.Companies, &pb.CompanyData{2, "Name_2", "Desc", ""})
+	response.Companies = append(response.Companies, &pb.CompanyData{3, "Name_3", "Desc", ""})
 
-	return &pb.CompanyListResponse{
-		Companies: &pb.CompanyData{
-			Id:          1,
-			Name:        "Name",
-			Descrpition: "Desc",
-			LogoUrl:     "",
-		},
-	}, nil
+	return &response, nil
 }
 
 func (s *server) GetDetail(ctx context.Context, in *pb.CompanyDetailRequest) (*pb.CompanyDetailResponse, error) {

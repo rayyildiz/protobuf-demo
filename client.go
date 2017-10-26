@@ -4,7 +4,7 @@ import (
 	"log"
 	"google.golang.org/grpc"
 
-	pb "github.com/rayyildiz/dmt/pb/compnay"
+	pb "github.com/rayyildiz/dmt/pb/company"
 	"golang.org/x/net/context"
 	"flag"
 	"fmt"
